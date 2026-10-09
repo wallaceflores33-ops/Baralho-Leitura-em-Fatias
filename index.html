@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Baralho Leitura em Fatias | Cartas para imprimir e a criança ler de pouquinho em pouquinho</title>
+<meta name="description" content="80 cartas em PDF, 20 histórias curtas em 3 níveis. A criança lê uma fatia, vira a carta e enfrenta o desafio. Pagamento único de R$ 19,90.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --manteiga:#FFE9A8;
+  --petroleo:#1F5F6B;
+  --laranja:#F28C38;
+  --creme:#FFF8EC;
+  --dourado:#D4A017;
+  --dourado-claro:#F6D56A;
+  --texto:#24343A;
+  --cut:22px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',system-ui,sans-serif;font-size:18px;line-height:1.6;color:var(--texto);background:var(--creme);-webkit-font-smoothing:antialiased}
+h1,h2,h3,.display{font-family:'Fredoka','Baloo 2',system-ui,sans-serif;font-weight:700;line-height:1.15;color:var(--petroleo)}
+img,svg{max-width:100%;display:block}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+section{padding:72px 0}
+.eyebrow{display:inline-block;font-weight:800;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--laranja);margin-bottom:14px}
+h2{font-size:clamp(28px,4.6vw,42px);margin-bottom:18px}
+h3{font-size:22px}
+.lead{font-size:20px;max-width:720px}
+
+/* Fatia: cantos cortados */
+.slice{
+  clip-path:polygon(var(--cut) 0,100% 0,100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,0 100%,0 var(--cut));
+}
+.slice-r{
+  clip-path:polygon(0 0,calc(100% - var(--cut)) 0,100% var(--cut),100% 100%,var(--cut) 100%,0 calc(100% - var(--cut)));
+}
+.card{background:#fff;padding:26px 26px 28px}
+.card.hl{background:var(--petroleo);color:#fff}
+.card.hl h3{color:var(--manteiga)}
+.card.hl p,.card.hl li{color:#EAF4F5}
+.card.warm{background:var(--manteiga)}
+
+/* Botões */
+.btn{display:inline-block;background:var(--laranja);color:#fff;font-family:'Fredoka',sans-serif;font-weight:700;font-size:20px;text-decoration:none;padding:18px 34px;
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);
+  transition:transform .15s, background .15s;text-align:center}
+.btn:hover{background:#e07a28;transform:translateY(-2px)}
+.btn:focus-visible{outline:3px solid var(--petroleo);outline-offset:3px}
+.btn-wrap{filter:drop-shadow(0 6px 0 rgba(31,95,107,.25));display:inline-block}
+.micro{font-size:15px;color:#4a5f65;margin-top:14px}
+
+/* HERO */
+.hero{background:var(--manteiga);padding:56px 0 80px;position:relative;overflow:hidden}
+.hero .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(32px,5.4vw,52px);margin-bottom:20px}
+.hero .sub{font-size:20px;margin-bottom:28px;max-width:560px}
+.hero-visual{position:relative;min-height:340px;display:flex;align-items:center;justify-content:center}
+.hero-visual img{width:100%;max-width:520px;height:auto}
+.fallback-cards{position:relative;width:100%;max-width:420px;height:340px}
+.fc{position:absolute;width:190px;height:250px;padding:18px;font-family:'Fredoka',sans-serif;color:var(--petroleo);font-size:20px;line-height:1.2;display:flex;flex-direction:column;justify-content:space-between}
+.fc small{font-family:'Nunito';font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--laranja)}
+.fc.a{left:0;top:50px;background:#fff;transform:rotate(-8deg)}
+.fc.b{left:100px;top:20px;background:var(--petroleo);color:#fff;transform:rotate(4deg);z-index:2}
+.fc.b small{color:var(--manteiga)}
+.fc.c{right:0;top:70px;background:var(--laranja);color:#fff;transform:rotate(11deg)}
+.fc.c small{color:#fff}
+.owl-hero{position:absolute;right:-6px;bottom:-14px;width:120px;z-index:3}
+.hero::after{content:"";position:absolute;right:-120px;top:-120px;width:360px;height:360px;background:var(--laranja);opacity:.12;
+  clip-path:polygon(0 0,100% 0,100% 100%);}
+
+
+/* Mockup explicado */
+.mock{position:relative;width:100%;max-width:520px}
+.mock img{width:100%;height:auto}
+.pins{display:none}
+.mock.loaded .pins{display:block}
+.pin{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;background:var(--laranja);color:#fff;font-family:'Fredoka',sans-serif;font-weight:700;font-size:16px;line-height:30px;text-align:center;box-shadow:0 0 0 3px #fff,0 3px 8px rgba(0,0,0,.25)}
+.legend{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:38px;position:relative;z-index:1}
+.legend li{background:#fff;padding:14px 16px 14px 58px;position:relative;font-size:16px;line-height:1.4;
+  clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
+.legend li b{display:block;font-family:'Fredoka',sans-serif;color:var(--petroleo);font-size:18px}
+.legend li i{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:var(--laranja);color:#fff;font-style:normal;font-family:'Fredoka',sans-serif;font-weight:700;text-align:center;line-height:32px}
+.legend li:nth-child(2){background:var(--petroleo);color:#EAF4F5}
+.legend li:nth-child(2) b{color:var(--manteiga)}
+.legend-title{font-family:'Fredoka',sans-serif;font-weight:700;color:var(--petroleo);font-size:22px;margin-top:44px}
+@media (max-width:860px){.legend{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.legend{grid-template-columns:1fr}.pin{width:26px;height:26px;margin:-13px 0 0 -13px;font-size:14px;line-height:26px}}
+
+/* 2 */
+.what{background:var(--creme)}
+.contrast{margin:26px 0;font-size:19px}
+.steps4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:30px;counter-reset:s}
+.steps4 .card{counter-increment:s;padding-top:60px;position:relative}
+.steps4 .card::before{content:counter(s);position:absolute;top:14px;left:20px;font-family:'Fredoka';font-weight:700;font-size:34px;color:var(--laranja)}
+.steps4 .card:nth-child(2){background:var(--petroleo);color:#fff}
+.steps4 .card:nth-child(2)::before{color:var(--manteiga)}
+
+/* 3 */
+.contents{background:#fff}
+.blocks{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:34px}
+.blocks .card{background:var(--creme)}
+.blocks .card.hl{background:var(--petroleo)}
+.blocks .card.full{grid-column:1/-1}
+.tag{display:inline-block;font-family:'Fredoka';font-weight:600;font-size:14px;background:var(--laranja);color:#fff;padding:2px 12px;margin-bottom:10px;clip-path:polygon(8px 0,100% 0,100% 100%,0 100%,0 8px)}
+.levels{list-style:none;margin-top:12px;display:grid;gap:12px}
+.levels li{background:#fff;padding:14px 18px;clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
+.levels li strong{font-family:'Fredoka';color:var(--petroleo);font-size:19px}
+.games{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+.games li{background:#fff;padding:14px 18px;clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
+.games strong{font-family:'Fredoka';color:var(--laranja);font-size:19px;display:block}
+
+/* 4 */
+.who{background:var(--manteiga)}
+.who ul{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:30px}
+.who li{background:#fff;padding:20px 22px 20px 58px;position:relative;
+  clip-path:polygon(16px 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%,0 16px)}
+.who li::before{content:"";position:absolute;left:20px;top:24px;width:22px;height:22px;background:var(--laranja);
+  clip-path:polygon(50% 100%,0 0,100% 0)}
+.who li:nth-child(3){background:var(--petroleo);color:#fff}
+.who li:nth-child(3)::before{background:var(--manteiga)}
+
+/* 5 */
+.how{background:var(--creme)}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px}
+.how-steps .card h3{margin-bottom:8px}
+.how-steps .card:nth-child(2){background:var(--petroleo);color:#fff}
+.how-steps .card:nth-child(2) h3{color:var(--manteiga)}
+.how-steps .n{font-family:'Fredoka';font-size:15px;font-weight:700;color:var(--laranja);text-transform:uppercase;letter-spacing:.08em}
+.how-steps .card:nth-child(2) .n{color:var(--dourado-claro)}
+
+/* 6 */
+.receive{background:#fff}
+.checklist{list-style:none;margin-top:28px;display:grid;gap:12px;max-width:760px}
+.checklist li{background:var(--creme);padding:16px 20px 16px 56px;position:relative;font-weight:600;
+  clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+.checklist li::before{content:"";position:absolute;left:20px;top:50%;width:22px;height:22px;transform:translateY(-50%);background:var(--petroleo);
+  clip-path:polygon(0 0,100% 0,100% 70%,70% 100%,0 100%)}
+.checklist li:nth-child(1){background:var(--manteiga)}
+
+/* 7 Bônus */
+.bonus-sec{background:linear-gradient(180deg,var(--creme),#FFF1CC)}
+.bonus-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;margin-top:40px}
+.bonus-outer{
+  background:linear-gradient(135deg,#F6D56A 0%,#B8860B 45%,#F6D56A 100%);
+  padding:6px;
+  clip-path:polygon(28px 0,100% 0,100% calc(100% - 28px),calc(100% - 28px) 100%,0 100%,0 28px);
+  filter:drop-shadow(0 8px 14px rgba(180,134,11,.35));
+  position:relative;
+}
+.bonus-wrap{position:relative}
+.bonus{background:#FFFBEF;padding:44px 28px 30px;height:100%;
+  clip-path:polygon(24px 0,100% 0,100% calc(100% - 24px),calc(100% - 24px) 100%,0 100%,0 24px)}
+.seal{position:absolute;top:-14px;left:18px;z-index:2;background:linear-gradient(135deg,#B8860B,#F6D56A 55%,#B8860B);color:#4a3200;
+  font-family:'Fredoka';font-weight:700;letter-spacing:.14em;font-size:15px;padding:8px 22px;
+  clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%);box-shadow:0 2px 0 rgba(0,0,0,.1)}
+.gift{position:absolute;top:14px;right:18px;width:50px;height:50px;z-index:2}
+.bonus h3{color:#7a5600;font-size:23px;margin-bottom:12px;padding-right:56px}
+.price-line{margin:14px 0 12px;font-weight:800}
+.price-line s{color:#9a7a30;margin-right:8px}
+.price-line .free{display:inline-block;background:var(--petroleo);color:var(--manteiga);font-family:'Fredoka';padding:2px 14px;
+  clip-path:polygon(8px 0,100% 0,100% 100%,0 100%,0 8px)}
+
+/* 8 Oferta */
+.offer{background:var(--petroleo);color:#fff}
+.offer h2{color:var(--manteiga);text-align:center}
+.offer-box{max-width:820px;margin:34px auto 0}
+.offer-list{list-style:none;display:grid;gap:10px}
+.offer-list li{background:rgba(255,255,255,.08);padding:14px 20px 14px 54px;position:relative;font-weight:600;
+  clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
+.offer-list li::before{content:"✓";position:absolute;left:18px;top:50%;transform:translateY(-50%);color:var(--manteiga);font-weight:800;font-size:20px}
+.offer-list li.gold{background:linear-gradient(135deg,#F6D56A,#D4A017);color:#3b2a00;font-weight:800}
+.offer-list li.gold::before{content:"★";color:#6b4a00}
+.offer-list li.hlrow{background:var(--manteiga);color:var(--petroleo)}
+.offer-list li.hlrow::before{color:var(--laranja)}
+.values{background:var(--creme);color:var(--texto);margin-top:30px;padding:28px 28px 22px}
+.values h3{margin-bottom:12px}
+.values table{width:100%;border-collapse:collapse;font-size:18px}
+.values td{padding:10px 0;border-bottom:2px dashed #e6d8b7}
+.values td:last-child{text-align:right;font-weight:800}
+.values tr.total td{border-bottom:none;font-family:'Fredoka';font-size:20px;color:var(--petroleo);padding-top:14px}
+.price-final{text-align:center;margin:34px 0 8px}
+.price-final .de{font-size:20px;opacity:.85}
+.price-final .de s{color:var(--manteiga)}
+.price-final .por{font-family:'Fredoka';font-weight:700;color:#fff;font-size:clamp(46px,9vw,76px);line-height:1;margin:6px 0}
+.price-final .por small{font-size:.35em;font-weight:600;color:var(--manteiga);display:block;margin-bottom:4px}
+.cta-center{text-align:center;margin-top:18px}
+.offer .micro{color:#CFE3E6}
+
+/* Rodapé */
+footer{background:#163F48;color:#CFE3E6;padding:44px 0;font-size:15px}
+footer p{max-width:820px;margin:0 auto 14px;text-align:center}
+footer a{color:var(--manteiga)}
+
+@media (max-width:860px){
+  section{padding:54px 0}
+  .hero .grid{grid-template-columns:1fr}
+  .hero-visual{order:-1;min-height:280px}
+  .steps4{grid-template-columns:repeat(2,1fr)}
+  .blocks,.bonus-grid,.who ul,.how-steps,.games{grid-template-columns:1fr}
+}
+@media (max-width:520px){
+  body{font-size:17px}
+  .steps4{grid-template-columns:1fr}
+  .btn{font-size:18px;padding:16px 22px;width:100%}
+  .btn-wrap{display:block}
+}
+</style>
+</head>
+<body>
+
+<!-- 1. HERO -->
+<header class="hero">
+  <div class="wrap grid">
+    <div>
+      <span class="eyebrow">Para pais e mães de crianças que estão aprendendo a ler</span>
+      <h1>Baralho Leitura em Fatias: Imprime e Já Faz Seu Filho Ler Histórias Curtas, Um Pedacinho de Cada Vez</h1>
+      <p class="sub">Cartas com textos cortados em fatias curtas. A criança lê uma fatia, vira a carta e enfrenta o desafio de entender o que leu. Sem texto longo, sem travar, sem medo de errar.</p>
+      <span class="btn-wrap"><a class="btn" href="#oferta">QUERO O BARALHO POR R$ 19,90 →</a></span>
+      <p class="micro">PDF para imprimir hoje · Pagamento único · Garantia de 7 dias</p>
+    </div>
+    <div class="hero-visual" id="heroVisual">
+      <div class="mock" id="mock">
+        <img id="heroImg" src="baralho-leitura-em-fatias-mockup.png" alt="Baralho Leitura em Fatias: capa, cartas-fatia, cartas de desafio, trilha de progresso e marcador da coruja Lia" width="500" height="500">
+        <div class="pins" aria-hidden="true">
+          <span class="pin" style="left:36%;top:22%">1</span>
+          <span class="pin" style="left:84%;top:32%">2</span>
+          <span class="pin" style="left:20%;top:80%">3</span>
+          <span class="pin" style="left:78%;top:82%">4</span>
+          <span class="pin" style="left:10%;top:55%">5</span>
+          <span class="pin" style="left:88%;top:68%">6</span>
+        </div>
+      </div>
+      <div class="fallback-cards" id="heroFallback" aria-hidden="true">
+        <div class="fc a slice"><small>Fatia 1</small><span>O gato foi ao parque.</span></div>
+        <div class="fc b slice-r"><small>Fatia 2</small><span>Ele viu uma bola vermelha.</span></div>
+        <div class="fc c slice"><small>Desafio</small><span>Quem foi ao parque?</span></div>
+        <svg class="owl-hero" viewBox="0 0 120 130" role="img" aria-label="Lia, a corujinha leitora">
+          <use href="#lia"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+<div class="wrap">
+    <p class="legend-title">O que você vê no mockup</p>
+    <ul class="legend">
+      <li><i>1</i><b>Capa do baralho</b>Baralho Leitura em Fatias, com a corujinha Lia</li>
+      <li><i>2</i><b>PDF no tablet</b>Chega no seu e-mail e fica salvo pra imprimir quando quiser</li>
+      <li><i>3</i><b>Carta-Fatia</b>Um pedacinho da história por carta. Lê, vira e segue</li>
+      <li><i>4</i><b>Carta de Desafio</b>Pergunta de interpretação pra provar que entendeu</li>
+      <li><i>5</i><b>Trilha do Pequeno Leitor</b>Tabuleiro onde a criança pinta uma fatia a cada história</li>
+      <li><i>6</i><b>Marcador da Lia</b>Bônus pra acompanhar a linha sem se perder</li>
+    </ul>
+  </div>
+</header>
+
+<!-- Mascote Lia (original, flat) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="lia" viewBox="0 0 120 130">
+      <ellipse cx="60" cy="122" rx="30" ry="5" fill="#000" opacity=".08"/>
+      <path d="M22 40 L30 10 L48 28 Z" fill="#8A5A34"/>
+      <path d="M98 40 L90 10 L72 28 Z" fill="#8A5A34"/>
+      <ellipse cx="60" cy="74" rx="40" ry="46" fill="#A9703F"/>
+      <ellipse cx="60" cy="88" rx="26" ry="30" fill="#F3D9A6"/>
+      <path d="M44 80 q4 4 8 0 M56 90 q4 4 8 0 M66 78 q4 4 8 0 M48 100 q4 4 8 0 M64 102 q4 4 8 0" stroke="#C9965A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <circle cx="42" cy="54" r="17" fill="#fff"/>
+      <circle cx="78" cy="54" r="17" fill="#fff"/>
+      <circle cx="42" cy="55" r="7" fill="#24343A"/>
+      <circle cx="78" cy="55" r="7" fill="#24343A"/>
+      <circle cx="44.5" cy="52.5" r="2.4" fill="#fff"/>
+      <circle cx="80.5" cy="52.5" r="2.4" fill="#fff"/>
+      <circle cx="42" cy="54" r="21" fill="none" stroke="#1F5F6B" stroke-width="4"/>
+      <circle cx="78" cy="54" r="21" fill="none" stroke="#1F5F6B" stroke-width="4"/>
+      <path d="M62 54 h-4" stroke="#1F5F6B" stroke-width="4" stroke-linecap="round"/>
+      <path d="M52 68 L68 68 L60 80 Z" fill="#F28C38"/>
+      <path d="M22 78 q-10 18 4 34 q10 -12 8 -30 Z" fill="#8A5A34"/>
+      <path d="M98 78 q10 18 -4 34 q-10 -12 -8 -30 Z" fill="#8A5A34"/>
+      <path d="M46 120 h10 M64 120 h10" stroke="#F28C38" stroke-width="5" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="presente" viewBox="0 0 50 50">
+      <rect x="6" y="20" width="38" height="26" rx="3" fill="#B8860B"/>
+      <rect x="3" y="14" width="44" height="10" rx="3" fill="#F6D56A"/>
+      <rect x="22" y="14" width="6" height="32" fill="#1F5F6B"/>
+      <path d="M25 14 C14 14 12 3 19 3 C24 3 25 10 25 14 Z" fill="#F28C38"/>
+      <path d="M25 14 C36 14 38 3 31 3 C26 3 25 10 25 14 Z" fill="#F28C38"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- 2. O QUE É ISSO -->
+<section class="what">
+  <div class="wrap">
+    <h2>Não é mais uma folha de exercício. É um jogo de cartas que faz a criança querer ler a próxima.</h2>
+    <p class="contrast"><strong>Folha de atividade cansa. Texto longo assusta. Criança que trava na primeira linha fecha o caderno e o pai fica sem saber o que fazer.</strong></p>
+    <p class="lead">O Baralho Leitura em Fatias funciona do jeito contrário: cada história vem cortada em 3 fatias curtas, uma por carta. A criança só precisa ler um pedacinho de cada vez, e no fim ainda ganha um desafio pra provar que entendeu.</p>
+
+    <h3 style="margin-top:38px">Como funciona o jogo em 4 passos:</h3>
+    <div class="steps4">
+      <div class="card slice"><p>Sorteia uma história (3 cartas-fatia)</p></div>
+      <div class="card slice hl"><p>Lê a fatia 1, vira a carta, lê a fatia 2, vira, lê a fatia 3</p></div>
+      <div class="card slice warm"><p>Enfrenta a carta de desafio da história</p></div>
+      <div class="card slice"><p>Marca o progresso na Trilha do Pequeno Leitor</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. O QUE VEM NO BARALHO -->
+<section class="contents">
+  <div class="wrap">
+    <span class="eyebrow">Conteúdo do baralho</span>
+    <h2>80 cartas, 20 histórias, 3 níveis de dificuldade</h2>
+
+    <div class="blocks">
+      <div class="card slice">
+        <span class="tag">Bloco 1</span>
+        <h3>Cartas-Fatia (60 cartas)</h3>
+        <p>20 histórias curtas, cada uma dividida em 3 fatias. Frases pequenas, letra grande, vocabulário do dia a dia da criança.</p>
+      </div>
+      <div class="card slice-r hl">
+        <span class="tag">Bloco 2</span>
+        <h3>Cartas de Desafio (20 cartas)</h3>
+        <p>Uma carta de desafio para cada história: perguntas de interpretação, "quem fez o quê", "o que aconteceu primeiro", "como você acha que terminou". A criança responde falando, apontando ou desenhando.</p>
+      </div>
+
+      <div class="card slice full">
+        <span class="tag">Bloco 3</span>
+        <h3>Os 3 Níveis</h3>
+        <ul class="levels">
+          <li><strong>Nível 1, Primeiras Fatias (8 histórias):</strong> frases curtíssimas, palavras simples, ideal pra quem está começando a juntar sílabas</li>
+          <li><strong>Nível 2, Fatias do Meio (6 histórias):</strong> frases um pouco maiores, mais personagens</li>
+          <li><strong>Nível 3, Fatias Inteiras (6 histórias):</strong> textos mais longos, com perguntas que pedem pensar além do que está escrito</li>
+        </ul>
+      </div>
+
+      <div class="card slice-r full">
+        <span class="tag">Bloco 4</span>
+        <h3>4 Jeitos de Jogar</h3>
+        <ul class="games">
+          <li><strong>Leia e Vire</strong>individual, a criança joga sozinha com o adulto por perto</li>
+          <li><strong>Duelo de Leitores</strong>dois jogadores, quem acerta mais desafios ganha</li>
+          <li><strong>Pai e Filho</strong>leitura compartilhada, cada um lê uma fatia</li>
+          <li><strong>Roda da Turma</strong>para grupos, irmãos, primos ou sala de aula</li>
+        </ul>
+      </div>
+
+      <div class="card slice warm">
+        <span class="tag">Bloco 5</span>
+        <h3>Trilha do Pequeno Leitor</h3>
+        <p>Tabuleiro de progresso onde a criança pinta uma fatia a cada história lida. Ela enxerga o próprio avanço e quer completar.</p>
+      </div>
+      <div class="card slice-r">
+        <span class="tag">Bloco 6</span>
+        <h3>Versão Colorida e Versão para Colorir</h3>
+        <p>A mesma coleção em duas versões: colorida pra jogar e preto e branco pra imprimir barato e a criança colorir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. PRA QUEM É -->
+<section class="who">
+  <div class="wrap">
+    <span class="eyebrow">Pra quem é</span>
+    <h2>Este baralho é pra você se...</h2>
+    <ul>
+      <li>É pai ou mãe e quer ajudar em casa, mas não sabe por onde começar sem virar professor</li>
+      <li>Seu filho lê silabando e trava quando o texto é grande</li>
+      <li>Seu filho lê, mas não entende o que leu e responde "não sei" nas perguntas</li>
+      <li>Sua família quer tirar a criança da tela com uma atividade curta, de 10 a 15 minutos</li>
+      <li>É professora de alfabetização e precisa de material pronto pra roda de leitura e reforço</li>
+      <li>Está de férias ou de fim de semana e quer ocupar a criança com algo que ensina de verdade</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 5. COMO FUNCIONA -->
+<section class="how">
+  <div class="wrap">
+    <span class="eyebrow">Como funciona</span>
+    <h2>Da compra ao primeiro jogo em poucos minutos</h2>
+    <div class="how-steps">
+      <div class="card slice">
+        <span class="n">Passo 1</span>
+        <h3>Compra e baixa</h3>
+        <p>O PDF chega no seu e-mail na hora.</p>
+      </div>
+      <div class="card slice-r">
+        <span class="n">Passo 2</span>
+        <h3>Escolhe o nível</h3>
+        <p>Começa pelo nível que combina com a criança. Se ela travar, volta um nível. Se estiver fácil, sobe.</p>
+      </div>
+      <div class="card slice warm">
+        <span class="n" style="color:var(--petroleo)">Passo 3</span>
+        <h3>Imprime e joga</h3>
+        <p>Imprime, recorta as cartas, embaralha e joga. Em 10 a 15 minutos a rodada acontece.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. O QUE VOCÊ RECEBE -->
+<section class="receive">
+  <div class="wrap">
+    <span class="eyebrow">O que você recebe</span>
+    <h2>Tudo pronto pra imprimir</h2>
+    <ul class="checklist">
+      <li>80 cartas em PDF prontas para imprimir (60 fatias + 20 desafios)</li>
+      <li>20 histórias curtas organizadas em 3 níveis</li>
+      <li>Regras de 4 jogos diferentes</li>
+      <li>Trilha do Pequeno Leitor para acompanhar o progresso</li>
+      <li>Versão colorida e versão para colorir</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 7. BÔNUS -->
+<section class="bonus-sec">
+  <div class="wrap">
+    <div style="text-align:center">
+      <span class="eyebrow">Só nesta oferta</span>
+      <h2>Você ainda leva 2 bônus de presente</h2>
+    </div>
+    <div class="bonus-grid">
+
+      <div class="bonus-wrap">
+        <span class="seal">BÔNUS</span>
+        <svg class="gift" aria-hidden="true"><use href="#presente"/></svg>
+        <div class="bonus-outer">
+          <div class="bonus">
+            <h3>BÔNUS 1: Lia, a Guia de Leitura (marcador recortável)</h3>
+            <p class="price-line"><s>Valor: R$ 7,90</s> <span class="free">HOJE: GRÁTIS</span></p>
+            <p>Um marcador de leitura da corujinha Lia pra recortar e usar embaixo da linha. Ele ajuda a criança a acompanhar as palavras com os olhos sem se perder no texto, e ainda funciona como "prêmio" por completar cada nível. Vem em versão colorida e versão para colorir.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bonus-wrap">
+        <span class="seal">BÔNUS</span>
+        <svg class="gift" aria-hidden="true"><use href="#presente"/></svg>
+        <div class="bonus-outer">
+          <div class="bonus">
+            <h3>BÔNUS 2: Certificado do Pequeno Leitor + Cartela de Adesivos de Conquista</h3>
+            <p class="price-line"><s>Valor: R$ 5,90</s> <span class="free">HOJE: GRÁTIS</span></p>
+            <p>Certificado para imprimir e preencher com o nome da criança quando ela completar cada nível, mais uma cartela de adesivos de conquista pra colar na Trilha. Vira motivo pra continuar e pra mostrar pra avó.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 8. OFERTA FINAL -->
+<section class="offer" id="oferta">
+  <div class="wrap">
+    <h2>Tudo isso, hoje, por um valor que cabe no bolso</h2>
+
+    <div class="offer-box">
+      <ul class="offer-list">
+        <li class="hlrow"><strong>60 Cartas-Fatia:</strong> 20 histórias curtas divididas em 3 fatias cada</li>
+        <li><strong>20 Cartas de Desafio:</strong> interpretação em formato de jogo</li>
+        <li><strong>3 Níveis de dificuldade:</strong> Primeiras Fatias, Fatias do Meio, Fatias Inteiras</li>
+        <li><strong>Regras de 4 jogos:</strong> Leia e Vire, Duelo de Leitores, Pai e Filho, Roda da Turma</li>
+        <li><strong>Trilha do Pequeno Leitor:</strong> tabuleiro de progresso</li>
+        <li><strong>Versão Colorida</strong> pronta para imprimir</li>
+        <li><strong>Versão para Colorir</strong> para economizar tinta e a criança participar</li>
+        <li class="gold">BÔNUS 1: Lia, a Guia de Leitura (marcador recortável)</li>
+        <li class="gold">BÔNUS 2: Certificado do Pequeno Leitor + Cartela de Adesivos de Conquista</li>
+        <li><strong>Formato:</strong> PDF em A4, imprime em qualquer impressora</li>
+        <li><strong>Entrega:</strong> imediata por e-mail após a confirmação do pagamento</li>
+        <li><strong>Garantia:</strong> 7 dias. Não gostou, devolvemos 100%</li>
+      </ul>
+
+      <div class="values slice">
+        <h3>Valor separado de cada item</h3>
+        <table>
+          <tr><td>Baralho completo (80 cartas)</td><td>R$ 19,90</td></tr>
+          <tr><td>Regras dos 4 jogos</td><td>R$ 6,90</td></tr>
+          <tr><td>Trilha do Pequeno Leitor</td><td>R$ 5,90</td></tr>
+          <tr><td>Bônus 1</td><td>R$ 7,90</td></tr>
+          <tr><td>Bônus 2</td><td>R$ 5,90</td></tr>
+          <tr class="total"><td>Total</td><td>R$ 46,50</td></tr>
+        </table>
+      </div>
+
+      <div class="price-final">
+        <p class="de">De <s>R$ 46,50</s> por apenas</p>
+        <p class="por"><small>pagamento único</small>R$ 19,90</p>
+      </div>
+
+      <div class="cta-center">
+        <span class="btn-wrap"><a class="btn" href="https://pay.cakto.com.br/c3s9xbc_1187173" rel="noopener">QUERO COMEÇAR HOJE POR R$ 19,90 →</a></span>
+        <p class="micro">Pagamento único · Sem mensalidade · Acesso imediato · Garantia de 7 dias</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. RODAPÉ -->
+<footer>
+  <div class="wrap">
+    <p><strong>Aviso educativo:</strong> Este é um material de apoio complementar à alfabetização. Não substitui o trabalho da escola, do professor nem a avaliação de profissionais (pedagogo, psicopedagogo, fonoaudiólogo) em casos de dificuldade de aprendizagem. Os resultados variam conforme a idade, o ritmo e a frequência de uso. Produto digital: nenhum item físico será enviado.</p>
+    <p><a href="https://pay.cakto.com.br/c3s9xbc_1187173" rel="noopener">Ir para o checkout</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var img=document.getElementById('heroImg'), fb=document.getElementById('heroFallback');
+  function ok(){ if(fb) fb.style.display='none'; var m=document.getElementById('mock'); if(m) m.classList.add('loaded'); }
+  function fail(){ img.style.display='none'; }
+  img.addEventListener('load',ok);
+  img.addEventListener('error',fail);
+  if(img.complete && img.naturalWidth>0) ok();
+})();
+</script>
+</body>
+</html>
